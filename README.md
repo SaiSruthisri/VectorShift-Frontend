@@ -1,3 +1,6 @@
+<img width="959" height="439" alt="image" src="https://github.com/user-attachments/assets/2577d569-8ae8-46c7-8e98-fef7c6129497" />
+
+
 # Running the Project
 
 ## Frontend
