@@ -1,17 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg: #f1f5f9;
-  --panel: rgba(255, 255, 255, 0.82);
+  --bg: #f4f1eb;
+  --bg-deep: #e7dfd3;
+  --panel: rgba(255, 255, 255, 0.78);
   --panel-solid: #ffffff;
-  --panel-border: #dbe4f0;
-  --text: #0f172a;
-  --muted: #475569;
-  --primary: #2563eb;
-  --primary-strong: #1d4ed8;
-  --primary-soft: rgba(37, 99, 235, 0.12);
-  --shadow-lg: 0 18px 45px rgba(15, 23, 42, 0.12);
-  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --panel-border: rgba(71, 85, 105, 0.16);
+  --text: #1e293b;
+  --muted: #64748b;
+  --primary: #334155;
+  --primary-strong: #0f172a;
+  --primary-soft: rgba(51, 65, 85, 0.10);
+  --accent: #8b5cf6;
+  --accent-strong: #6d28d9;
+  --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.12);
+  --shadow-md: 0 14px 30px rgba(15, 23, 42, 0.08);
+  --shadow-sm: 0 8px 18px rgba(15, 23, 42, 0.07);
   --radius-lg: 18px;
   --radius-md: 14px;
   --radius-sm: 10px;
@@ -30,11 +34,22 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
-    radial-gradient(circle at top right, rgba(14, 165, 233, 0.10), transparent 28%),
-    linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    radial-gradient(circle at 18% 18%, rgba(120, 113, 255, 0.10), transparent 22%),
+    radial-gradient(circle at 86% 14%, rgba(180, 83, 9, 0.08), transparent 24%),
+    linear-gradient(180deg, #fbfaf7 0%, var(--bg) 56%, var(--bg-deep) 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.08)),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.42), transparent 34%);
+  opacity: 0.5;
 }
 
 button,
@@ -66,8 +81,8 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: rgba(37, 99, 235, 0.45);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  border-color: rgba(51, 65, 85, 0.36);
+  box-shadow: 0 0 0 4px rgba(51, 65, 85, 0.10);
   background: #ffffff;
 }
 
@@ -90,12 +105,29 @@ label {
   overflow: hidden;
 }
 
+.toolbar-shell,
+.canvas-shell,
+.submit-shell {
+  animation: lift-in 520ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes lift-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .toolbar-shell {
-  padding: 10px 12px;
-  border: 1px solid rgba(219, 228, 240, 0.95);
-  border-radius: var(--radius-lg);
-  background: var(--panel);
-  backdrop-filter: blur(14px);
+  padding: 12px 12px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 245, 239, 0.76));
+  backdrop-filter: blur(18px) saturate(1.15);
   box-shadow: var(--shadow-md);
   overflow: hidden;
 }
@@ -103,7 +135,7 @@ label {
 .toolbar-grid {
   display: flex;
   flex-wrap: nowrap;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
   padding-bottom: 4px;
 }
@@ -113,32 +145,55 @@ label {
 }
 
 .toolbar-grid::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.35);
+  background: rgba(100, 116, 139, 0.34);
   border-radius: 999px;
 }
 
 .toolbar-card {
   cursor: grab;
-  min-width: 82px;
-  min-height: 50px;
-  padding: 8px 10px;
+  position: relative;
+  min-width: 88px;
+  min-height: 54px;
+  padding: 9px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border-radius: 12px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background:
+    linear-gradient(180deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.9)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.10), transparent 60%);
   color: #f8fafc;
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  transform: translateZ(0);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    filter 180ms ease;
 }
 
 .toolbar-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.16);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.18);
+  filter: brightness(1.02) saturate(0.96);
+}
+
+.toolbar-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -30% -70% -30%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 60%);
+  transform: rotate(-8deg);
+  pointer-events: none;
 }
 
 .toolbar-card__label {
+  position: relative;
+  z-index: 1;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -147,34 +202,43 @@ label {
 .toolbar-card--customInput,
 .toolbar-card--api,
 .toolbar-card--database {
-  background: linear-gradient(180deg, #0f766e 0%, #115e59 100%);
+  background:
+    linear-gradient(180deg, #155e75 0%, #164e63 100%),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.16), transparent 60%);
 }
 
 .toolbar-card--llm,
 .toolbar-card--math,
 .toolbar-card--condition {
-  background: linear-gradient(180deg, #1d4ed8 0%, #1e3a8a 100%);
+  background:
+    linear-gradient(180deg, #4338ca 0%, #312e81 100%),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 60%);
 }
 
 .toolbar-card--customOutput,
 .toolbar-card--email,
 .toolbar-card--text {
-  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  background:
+    linear-gradient(180deg, #475569 0%, #334155 100%),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.10), transparent 60%);
 }
 
 .canvas-shell {
   flex: 1;
   min-height: 0;
-  border: 1px solid rgba(219, 228, 240, 0.95);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.95));
+  background:
+    radial-gradient(circle at 75% 18%, rgba(139, 92, 246, 0.07), transparent 24%),
+    linear-gradient(180deg, rgba(252, 250, 246, 0.98), rgba(243, 239, 231, 0.98));
   box-shadow: var(--shadow-lg);
+  animation-delay: 80ms;
 }
 
 .canvas-shell .react-flow__renderer {
-  background-image: radial-gradient(rgba(148, 163, 184, 0.18) 1px, transparent 1px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .canvas-shell .react-flow__minimap {
@@ -194,10 +258,19 @@ label {
   width: 100%;
   min-height: 100%;
   padding: 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.04), transparent 26%),
+    linear-gradient(180deg, #ffffff 0%, #fbf9f5 100%);
+  box-shadow: var(--shadow-sm);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.base-node:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.16);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
 }
 
 .base-node__title {
@@ -215,9 +288,18 @@ label {
 }
 
 .base-node input,
-.base-node select {
+.base-node select,
+.base-node textarea {
   background: #ffffff;
-  border: 1px solid var(--panel-border);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.base-node input:hover,
+.base-node select:hover,
+.base-node textarea:hover {
+  border-color: rgba(139, 92, 246, 0.24);
 }
 
 .base-node input::placeholder {
@@ -228,8 +310,14 @@ label {
   width: 12px;
   height: 12px;
   border: 2px solid #ffffff;
-  background: var(--primary);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-strong) 100%);
+  box-shadow: 0 0 0 4px rgba(51, 65, 85, 0.12);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.base-node .react-flow__handle:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(51, 65, 85, 0.14);
 }
 
 .submit-shell {
@@ -243,20 +331,40 @@ label {
   min-width: 168px;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
   color: white;
   font-weight: 700;
-  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.20);
+  box-shadow: 0 12px 22px rgba(91, 33, 182, 0.22);
   cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
 .submit-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 30px rgba(37, 99, 235, 0.28);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 18px 30px rgba(91, 33, 182, 0.30);
+  filter: saturate(1.05);
 }
 
 .submit-button:active {
   transform: translateY(0);
+}
+
+.submit-button:focus-visible,
+.toolbar-card:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.16), 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 code {
