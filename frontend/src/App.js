@@ -6,10 +6,10 @@ import { SubmitButton } from './submit';
 
 function App() {
   return (
-    <div>
+    <div className="app-shell">
       <PipelineToolbar />
-      <PipelineUI />
       <SubmitButton />
+      <PipelineUI />
     </div>
   );
 }
